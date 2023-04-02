@@ -1,8 +1,14 @@
 
+///////// ======= Fundies Exam 2 Notes ======= /////////////
+
+
+// big box :0 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import tester.Tester;
 import java.util.function.Predicate;
+import java.util.Iterator;
 
 class Utils {
 	boolean containsSequence(ArrayList<Integer> source, 
@@ -31,10 +37,28 @@ class Utils {
 class ExamplesList {
 	ArrayList<Integer> fullSource = new ArrayList<> (
 			Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9));
-	
 	ArrayList<Integer> smallSource = new ArrayList<>(Arrays.asList(1, 2));
 	ArrayList<Integer> emptySource = new ArrayList<>(Arrays.asList(1, 2));
+	
+	
 	ArrayList<Integer> correctSequence = new ArrayList<>(Arrays.asList(1, 2));
+	ArrayList<Integer> sourceLengthSequence = new ArrayList<>(Arrays.asList(
+			1, 2, 3, 4, 5, 6, 7, 8, 9));
+	ArrayList<Integer> smallCorrectSequence = new ArrayList<>(Arrays.asList(1, 2));
+	ArrayList<Integer> endCorrectSequence = new ArrayList<>(Arrays.asList(6, 7, 8));
+	ArrayList<Integer> incorrectSequence = new ArrayList<>(Arrays.asList(1, 5, 3));
+	ArrayList<Integer> emptySequence = new ArrayList<>(Arrays.asList(1, 2));
+
+   void testContainsSequence(Tester t) {
+	   Utils util = new Utils();
+	   
+	   t.checkExpect(util.containsSequence(emptySource, correctSequence), false);
+	   t.checkExpect(util.containsSequence(smallSource, correctSequence), false);
+	   t.checkExpect(util.containsSequence(emptySource, correctSequence), false);
+
+   }
+	
+
 
 }
 
@@ -465,8 +489,88 @@ class ExamplesDeque {
   }
 }
 
+class EveryOther<T> implements Iterator<T> {
 
+	Iterator<T> iter;
+	
+	EveryOther(Iterator<T> iter) {
+		this.iter = iter;
+	}
+	
+	// iterable vs iterator
+	
+	// transverable vs traveler 
+	
+	/* Iterator goes through the Iterable, just like a traveler goes through 
+	 * a traversable
+	 * 
+	 */
+	
+	//checks whether this arrayList has a next value
+	public boolean hasNext() {
+		return this.iter.hasNext() && iter.hasNext();
+	}
+    //returns the next value (whatever it's assigned)
+	public T next() {
+		
+		if (!this.hasNext()) {
+			throw new IllegalStateException();
+		}
+		
+		T result = this.iter.next();
+		
+		// 1 2 3 4 5 
+		// result = 1
+		// this.iter.next() = 2
+		// result = 3
+		// this.iter.next() = 4 
+		// result = 5
+		
+		// what if there is no other for every other 
+		
+		if (this.iter.hasNext()) {
+			this.iter.next();
+		}
+		return result;
+	}
+    // removes a value based on the given index
+	public void remove() {
+		this.iter.remove();
+	}
+}
 
+class ExampleIterator {
+
+		Iterator<Integer> arrayList = new ArrayList<Integer>(
+				Arrays.asList(1, 2, 3, 4, 5)).iterator();
+		
+	void testIterator(Tester t) {
+		t.checkExpect(arrayList.hasNext(), true);
+		t.checkExpect(arrayList.next(), 1);
+		t.checkExpect(arrayList.hasNext(), true);
+		t.checkExpect(arrayList.next(), 2);
+		t.checkExpect(arrayList.hasNext(), true);
+		t.checkExpect(arrayList.next(), 3);
+		t.checkExpect(arrayList.hasNext(), true);
+		t.checkExpect(arrayList.next(), 4);
+		t.checkExpect(arrayList.hasNext(), true);
+		t.checkExpect(arrayList.next(), 5);
+		t.checkExpect(arrayList.hasNext(), false);
+	}
+	
+	void testEveryOther(Tester t) {
+		EveryOther<Integer> e = new EveryOther<Integer>(arrayList);
+	
+		t.checkExpect(e.hasNext(), false);
+		//t.checkExpect(e.next(), 1);
+		t.checkExpect(e.hasNext(), true);
+		t.checkExpect(e.next(), 3);
+		t.checkExpect(e.hasNext(), true);
+		t.checkExpect(e.next(), 5);
+		t.checkExpect(e.hasNext(), false);
+		
+	}
+} 
 
 
 
