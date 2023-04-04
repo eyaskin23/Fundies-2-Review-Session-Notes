@@ -541,10 +541,13 @@ class EveryOther<T> implements Iterator<T> {
 
 class ExampleIterator {
 
+	
+		
+	void testIterator(Tester t) {
+		
 		Iterator<Integer> arrayList = new ArrayList<Integer>(
 				Arrays.asList(1, 2, 3, 4, 5)).iterator();
 		
-	void testIterator(Tester t) {
 		t.checkExpect(arrayList.hasNext(), true);
 		t.checkExpect(arrayList.next(), 1);
 		t.checkExpect(arrayList.hasNext(), true);
@@ -558,11 +561,14 @@ class ExampleIterator {
 		t.checkExpect(arrayList.hasNext(), false);
 	}
 	
+	
 	void testEveryOther(Tester t) {
+		Iterator<Integer> arrayList = new ArrayList<Integer>(
+				Arrays.asList(1, 2, 3, 4, 5)).iterator();
 		EveryOther<Integer> e = new EveryOther<Integer>(arrayList);
 	
-		t.checkExpect(e.hasNext(), false);
-		//t.checkExpect(e.next(), 1);
+		t.checkExpect(e.hasNext(), true);
+		t.checkExpect(e.next(), 1);
 		t.checkExpect(e.hasNext(), true);
 		t.checkExpect(e.next(), 3);
 		t.checkExpect(e.hasNext(), true);
